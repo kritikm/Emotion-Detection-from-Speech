@@ -1,0 +1,8 @@
+recording = record(2000);
+fs = recording.SampleRate;
+frameDuration = 0.02;
+frameStep = 0.01;
+frames = frame_sig(recording, frameDuration * fs, frameStep * fs, @hamming);
+deframed = deframe_sig(frames, recording.TotalSamples, frameDuration * fs, frameStep * fs, @hamming);
+soundsc(deframed, fs);
+framesFFT = fft(frames)
