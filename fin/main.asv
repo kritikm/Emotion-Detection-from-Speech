@@ -1,0 +1,39 @@
+nNeighbors = 5;
+if(exist('learnt', 'file') == 0)
+    fprintf('First run\n');
+   
+    fprintf('Learning anger\n');
+    [angrySpeech, angerFs] = audioread('Anger/angermontage.wav');
+    frameDuration = 20;
+    frameShift = 10;
+    preemphasis = 0.97;
+    nFilterbankChannels = 20;
+    nCepstralCoefficients = 12;
+    cepstralSineLifter = 22;
+    lowerFrequency = 300;
+    upperFrequency = 3700;
+    
+    angerMFCC = mfcc(angrySpeech, angerFs, frameDuration, frameShift, preemphasis, @hamming,...
+        [lowerFrequency upperFrequency], nFilterbankChannels, nCepstralCoefficients + 1, cepstralSineLifter);
+    
+    data = angerMFCC';
+    
+    classes = repmat(cellstr('angry'), size(angerMFCC', 1), 1);
+    
+%     angerModel = fitcknn(angerMFCC, 'anger', 'NumNeighbors', nNeighbors,
+%     'Standardize', 1);
+    fprintf('I now know what anger sounds like\n');    
+    
+    fprintf('Learning sadness\n');
+    [sadSpeech, sadFs] = audioread('Sadness/sadmontage.wav');
+    sadMFCC = mfcc(sadSpeech, sadFs, frameDuration, frameShift, preemphasis, @hamming, ...
+        [lowerFrequency upperFrequency], nFilterbankChannels, nCepstralCoefficients + 1, cepstralSineLifter);
+    
+    data = [data; sadMFCC'];
+    
+    classes = [classes; repmat(cellstr('sad'), size(sadMFCC', 1), 1)];
+    fprintf('I now know what sadness sounds like\n');
+    
+    
+    
+end
