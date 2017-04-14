@@ -1,5 +1,4 @@
-emotions = [string('Anger') string('Sadness')];
-
+emotions = [string('Anger') string('Sadness') string('Elation')];
 nNeighbors = 3;
 frameDuration = 20;
 frameShift = 10;
@@ -38,9 +37,14 @@ fprintf('Making KNN Classifier\n');
 knnClassifier = fitcknn(data, classes, 'NumNeighbors', nNeighbors, 'Standardize', 1);
 fprintf('KNN Classifier ready\n');
 
-fprintf('Making SVM Classifier\n');
-svmClassifier = fitcsvm(data, classes, 'Standardize', 1);
-fprintf('SVM Classifier ready\n');
+% fprintf('Making SVM Classifier\n');
+
+% if(size(emotions, 2) == 2)
+%     svmClassifier = fitcsvm(data, classes, 'KernelFunction', 'rbf', 'Standardize', 1);
+% else
+%     svmClassifier = fitcecoc(data, classes);
+% end
+% fprintf('SVM Classifier ready\n');
 
 classifyThis = input('Enter an audio to be classified ', 's');
 [speech, speechFs] = audioread(classifyThis);
@@ -52,10 +56,11 @@ analysis = mfcc(speech, speechFs, frameDuration, frameShift, preemphasis, @hammi
 x = analysis';
 
 labels = predict(knnClassifier, x);
+% labels = predict(svmClassifier, x);
 results = zeros(size(emotions, 2), 1);
 
 for i = 1 : size(labels, 1)
-    index = find(strcmp(label(i), emotions, 'exact'));
+    index = find(strcmp(labels(i), emotions));
     results(index) = results(index) + 1;
 end
 

@@ -1,6 +1,4 @@
-clear all; clc;
-
-emotions = [string('Anger') string('Sadness')];
+emotions = [string('Anger') string('Sadness') string('Elation')];
 nNeighbors = 3;
 frameDuration = 20;
 frameShift = 10;
@@ -35,13 +33,16 @@ for i = 1 : size(emotions, 2)
     fprintf('I now know what %s sounds like\n', toLearn);
 end
 
-fprintf('Making KNN Classifier\n');
-knnClassifier = fitcknn(data, classes, 'NumNeighbors', nNeighbors, 'Standardize', 1);
-fprintf('KNN Classifier ready\n');
 
-fprintf('Making SVM Classifier\n');
-svmClassifier = fitcsvm(data, classes, 'KernelFunction', 'rbf', 'Standardize', 1);
-fprintf('SVM Classifier ready\n');
+if(size(emotions, 2) == 2)
+    fprintf('Making SVM Classifier\n');
+    classificationModel = fitcsvm(data, classes, 'KernelFunction', 'gaussian', 'Standardize', 1);
+    fprintf('SVM Classifier ready\n');
+else
+    fprintf('Making KNN Classifier\n');
+    classificationModel = fitcknn(data, classes, 'NumNeighbors', nNeighbors, 'Standardize', 1);
+    fprintf('KNN Classifier ready\n');
+end
 
 classifyThis = input('Enter an audio to be classified ', 's');
 [speech, speechFs] = audioread(classifyThis);
@@ -53,7 +54,8 @@ analysis = mfcc(speech, speechFs, frameDuration, frameShift, preemphasis, @hammi
 x = analysis';
 
 % labels = predict(knnClassifier, x);
-labels = predict(svmClassifier, x);
+labels = predict(classificationModel, x);
+
 results = zeros(size(emotions, 2), 1);
 
 for i = 1 : size(labels, 1)
