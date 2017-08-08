@@ -10,13 +10,16 @@ Detection of emotion in a speech input can serve several purposes. Some of them 
 - Detect signs of depression in a patient
 
 ### Dataset
-Name **Emotional Prosody Speech and Transcripts**  
-Authors **Mark Liberman, Kelly Davis, Murray Grossman, Nii Martey, John Bell**  
-
 >Emotional Prosody Speech and Transcripts was developed by the Linguistic Data Consortium and contains audio recordings and corresponding transcripts, collected over an eight month period in 2000-2001 and designed to support research in emotional prosody.
 There are 30 data files: 15 recordings in sphere format and their transcripts.
 
 Description taken from [here](https://catalog.ldc.upenn.edu/LDC2002S28).
+
+**Name** Emotional Prosody Speech and Transcripts  
+**Authors** Mark Liberman, Kelly Davis, Murray Grossman, Nii Martey, John Bell  
+**Feature extracted** 13 MFCC coefficients
+
+
 
 ### Techniques
 - KNN Classifier
