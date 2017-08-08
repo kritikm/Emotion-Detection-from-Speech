@@ -131,8 +131,8 @@ function [ CC, FBE, frames ] = mfcc( speech, fs, Tw, Ts, alpha, window, R, M, N,
 
     % Forward and backward mel frequency warping (see Eq. (5.13) on p.76 of [1]) 
     % Note that base 10 is used in [1], while base e is used here and in HTK code
-    hz2mel = @( hz )( 1127*log(1+hz/700) );     % Hertz to mel warping function
-    mel2hz = @( mel )( 700*exp(mel/1127)-700 ); % mel to Hertz warping function
+    hz2mel = @( hz )( 1125*log(1+hz/700) );     % Hertz to mel warping function
+    mel2hz = @( mel )( 700*exp(mel/1125)-700 ); % mel to Hertz warping function
 
     % Type III DCT matrix routine (see Eq. (5.14) on p.77 of [1])
     dctm = @( N, M )( sqrt(2.0/M) * cos( repmat([0:N-1].',1,M) ...

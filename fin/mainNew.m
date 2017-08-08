@@ -74,7 +74,7 @@ while(more == 'y' || more == 'Y')
 
     [maxWell, maxPlace] = max(results);
 
-    fprintf('Classifying as %s with a probability of %f\n', emotions(maxPlace), maxWell);
+    fprintf('Classifying as %s with a confidence of %f\n', emotions(maxPlace), maxWell);
     
     more = input('Test on more data?(y/n) ', 's');
 end
